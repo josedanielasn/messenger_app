@@ -1,0 +1,79 @@
+// =====================================> LOGIN
+// =====================================> LOGIN
+// =====================================> LOGIN
+// =====================================> LOGIN
+
+.login-body {
+  background-color: rgb(182, 180, 180);
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  align-items: center;
+}
+
+.container-login {
+  background-color: rgb(153, 147, 150);
+  border-radius: 5px;
+  border: solid 3px rgb(112, 109, 109);
+  margin: 50px 0 0 0;
+  padding: 10px;
+  width: 30%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.field {
+  display: flex;
+  flex-flow: column;
+  width: 70%;
+  margin: auto;
+}
+
+.field .label-forms {
+  margin: 20px 0 5px;
+  font-size: 1.4em;
+  font-weight: 700;
+}
+
+.inputfields {
+  height: 25px;
+  border: none;
+  border-bottom: solid 2.5px rgb(112, 109, 109);
+  background-color: rgb(153, 147, 150);
+  outline: none;
+  padding-left: 10px;
+  font-size: 1.2em;
+}
+
+.fields {
+  margin: 10px auto;
+  padding: auto 5px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions {
+  width: 150px;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.login-button {
+  width: 90px;
+  height: 25px;
+  font-size: 1.1em;
+  border-radius: 5px;
+}
+
+.login-links {
+  margin: 15px auto 10px;
+}
+
+.errors {
+  width: 80%;
+  margin: auto;
+  font-size: 0.9em;
+  color: rgb(139, 77, 77);
+}

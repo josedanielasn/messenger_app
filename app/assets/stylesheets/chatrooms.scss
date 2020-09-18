@@ -1,3 +1,72 @@
 // Place all the styles related to the chatrooms controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.chatroom-body {
+  background-color: rgb(182, 180, 180);
+}
+
+.container {
+  width: 500px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.chat-messages {
+  background-color: gray;
+  width: 400px;
+  padding: 20px;
+  height: 500px;
+  // display: flex;
+  // flex-flow: column;
+  // align-items: flex-end;
+  // justify-items: flex-end;
+  // justify-content: flex-end;
+  border: solid 2px black;
+  border-bottom: solid 1px black;
+  overflow: auto;
+  text-align: right;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.form-messages {
+  width: 400px;
+  display: flex;
+  background-color: white;
+  border: solid 2px black;
+  border-top: none;
+}
+
+.form {
+  width: 400px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.input-message {
+  width: 350px;
+  margin-right: 10px;
+  border: none;
+  text-align: right;
+  outline: none;
+}
+
+.submit {
+  width: 50px;
+}
+
+svg {
+  color: blue;
+}
+
+button {
+  border: none;
+  margin: 0px;
+  background-color: white;
+}
+
+li {
+  list-style: none;
+}
