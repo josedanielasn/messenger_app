@@ -4,17 +4,19 @@
 
     <div class = "chat-messages">
       <% @messages.each do |message| %>
-      <p><%= message.message_body %></p>
+      <li><%= message.message_body %></li>
       <% end %>
     </div>
 
     <div class = "form-messages">
-      <%= form_with model: @new_message, :url => {:controller => 'messages', :action => 'create'}  do |form| %>
+      <%= form_with model: @new_message, :url => {:controller => 'messages', :action => 'create'}, class:'form' do |form| %>
         <div class = "message-body-create">
-          <%= form.text_field :message_body %>
-        </div>
-        <div class="submit">
-          <%=form.submit "Send Message", class:"submit-message" %>
+          <%= form.text_field :message_body, class: "input-message", html: { autocomplete: "off" } %>
+          <button type="submit" class>
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-right-dots-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg>
+          </button>
         </div>
       <% end %>
     </div>
