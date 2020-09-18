@@ -4,8 +4,12 @@
 
     <div class = "chat-messages">
       <% @messages.each do |message| %>
-      <li><%= message.message_body %></li>
-      <% end %>
+        <% if message.user_id == current_user.id %>
+          <li class="current_user"><%= message.message_body %></li>
+        <% else%>
+          <li><%= message.message_body %></li>
+        <% end %>
+       <% end %>
     </div>
 
     <div class = "form-messages">
