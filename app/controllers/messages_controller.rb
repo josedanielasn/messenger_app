@@ -2,8 +2,7 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @messages = Message.new(messages_params)
-    @messages.user_id = params[:user_id]
+    @messages = current_user.messages.new(messages_params)
     if @messages.save
       redirect_to users_messages_path
     else
