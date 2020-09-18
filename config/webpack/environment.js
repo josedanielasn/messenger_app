@@ -4,9 +4,6 @@ const {
 
 module.exports = environment
 
-const {
-  environment
-} = require('@rails/webpacker')
 
 const {
   environment
