@@ -3,13 +3,9 @@
   <div class = "container">
 
     <div class = "chat-messages">
-      <% @messages.each do |message| %>
-        <% if message.user_id == current_user.id %>
-          <li class="current-user"><%= message.message_body %></li>
-        <% else%>
-          <li class = "other-user"><%= message.message_body %></li>
-        <% end %>
-       <% end %>
+     <div class = 'messages-new' id ="message-container">
+     <%= render @messages%>
+     </div>
     </div>
 
     <div class = "form-messages">

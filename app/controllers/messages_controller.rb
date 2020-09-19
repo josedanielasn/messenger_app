@@ -4,7 +4,8 @@ class MessagesController < ApplicationController
   def create
     @messages = current_user.messages.new(messages_params)
     if @messages.save
-      redirect_to users_messages_path
+      ActionCable.server.broadcast "chatroom_channel",
+      {mod_messages: message_render(@messages), sent_by: current_user}
     else
       flash.now[:alert] = 'Error while sending message!'
     end
@@ -13,5 +14,9 @@ class MessagesController < ApplicationController
   private
   def messages_params
     params.require(:message).permit(:message_body, :user_id)
+  end
+ 
+  def message_render(message)
+    render(partial: 'message', locals:{message: message})
   end
 end
