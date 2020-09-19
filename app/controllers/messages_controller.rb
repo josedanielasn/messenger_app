@@ -5,7 +5,6 @@ class MessagesController < ApplicationController
     @messages = current_user.messages.new(messages_params)
     if @messages.save
       ActionCable.server.broadcast "chatroom_channel",
-      # {mod_messages: message_render(@messages), sent_by: current_user}
       {mod_messages: message_render(@messages), sent_by: current_user}
     else
       flash.now[:alert] = 'Error while sending message!'
