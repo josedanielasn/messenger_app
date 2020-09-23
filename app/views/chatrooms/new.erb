@@ -1,0 +1,41 @@
+<div class = "edit-body">
+  <%= form_with model:@new_chatroom, :url => {:controller => 'chatrooms', :action => 'create'} do |f| %>
+
+
+
+   <div class ="form-body">
+          <div class ="form-parts">
+            <div class = "form-room-admin">
+              <p class = "edit-label"> Room Admin:
+              <div class = "dropdown-select">
+              <%= @current_user.username%>
+              </div>
+            </div>
+            <div>
+              <p class = "edit-label"> Room name: </p>
+              <p><%= f.text_field :room_name, class: 'input-room-name'%></p>
+            </div>
+          </div>
+      <div class ="form-body">
+
+
+
+        <div class ="form-tags">
+            <p class = "edit-label subscribers"> Room Subscribers: </p>
+            <div class = "users-check-box">
+            <%= f.collection_check_boxes :user_ids, @choose_user, :id, :email, include_hidden: false do |b| %>
+            <div class="collection-check-box">
+              <%= b.check_box %>
+              <%= b.label %>
+            </div>
+            <% end %>
+            </div>
+          </div>
+
+        <div class="submit-edit">
+          <%=f.submit "Create", class:"submit-edit-button" %>
+          </div>
+      </div>
+    <% end %>
+    </div>
+</div>

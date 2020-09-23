@@ -1,0 +1,41 @@
+<div class = "edit-body">
+    <%= form_with model:@chatroom, :url => {:controller => 'chatrooms', :action => 'update'}, class:'form' do |f| %>
+
+        <div class ="form-body">
+          <div class ="form-parts">
+            <div class = "form-room-admin">
+              <div class = "form-room-admin-upper">
+                <div class = "edit-label"> Room Admin: </div>
+                <div>
+                <%= link_to  "Disband Room", delete_chatroom_path(@chatroom), method: :delete, class: 'disband-room' %>
+                </div>
+              </div> 
+              <div class = "dropdown-select">
+              <%= f.select :room_admin, @choose_user.collect { |p| [ p.username, p.id ] }, include_blank: " - #{@chatroom.room_admin} -" %>
+              </div>
+            </div>
+            <div>
+              <p class = "edit-label"> Room name: </p>
+              <p><%= f.text_field :room_name, class: 'input-room-name'%></p>
+            </div>
+          </div>
+
+          <div class ="form-tags">
+            <p class = "edit-label subscribers"> Room Subscribers: </p>
+            <div class = "users-check-box">
+            <%= f.collection_check_boxes :user_ids, @choose_user, :id, :email, include_hidden: false do |b| %>
+            <div class="collection-check-box">
+              <%= b.check_box %>
+              <%= b.label %>
+            </div>
+            <% end %>
+            </div>
+          </div>
+
+          <div class="submit-edit">
+          <%=f.submit "Save", class:"submit-edit-button" %>
+          </div>
+        </div>
+      <% end %>
+      </div>
+</div>

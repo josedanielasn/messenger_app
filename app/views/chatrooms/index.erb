@@ -1,26 +1,102 @@
 <body class = "chatroom-body">
-
-  <div class = "container">
-
-    <div class = "chat-messages">
-     <div class = 'messages-new' id ="message-container">
-     <%= render @messages%>
-     </div>
-    </div>
-
-    <div class = "form-messages">
-      <%= form_with model: @new_message, :url => {:controller => 'messages', :action => 'create'}, class:'form' do |form| %>
-        <div class = "message-body-create">
-          <%= form.text_field :message_body, class: "input-message", html: { autocomplete: "off" } %>
-          <button type="submit" class>
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-right-dots-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-          </svg>
-          </button>
-        </div>
+  <nav class ="main-dashboard">
+    <div class = 'channel-title'>
+      <span class = 'channel-label'> Streaming Channel: </span>
+      <% if @current_room == @general_channel%>
+      <span class = 'channel-name' data-room-id = "<%= @current_room.id%>"><%= @current_room.room_name%></span>
+      <% else %>
+      <%=link_to edit_chatroom_path(@current_room) do %>
+         <span class = 'channel-name' data-room-id = "<%= @current_room.id%>"><%= @current_room.room_name%></span>
+      <% end %>
       <% end %>
     </div>
+    <div class = "current-user-name">
+      <svg width="2em" height="2em" viewBox="0 0 16 16"   class="bi bi-file-earmark-person-fill user-icon" fill="currentColor"  xmlns="http://www.w3.org/2000/svg">
+       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm2 5.755S12 12 8 12s-5 1.755-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z"/>
+      </svg>
+      <%= link_to  pages_home_path do  %>
+      <span class = 'user-name'> <%= current_user.username%> </span>
+      <% end %>
+    </div>
+  </nav>
+  <div class = "main-chatroom-body">
 
+    <div class = container-rooms>
+      <div class = "channel-options">
+          <div class = "chatroom-label">
+            <%= link_to  "New Channel", new_chatroom_path %> 
+          </div>
+          <% @chatrooms.each do |room|%>
+          <div class = "chatroom-label" id ="chatroom-label-<%= room.id%>">
+            <%= link_to  "#{room.room_name}",  show_chatroom_path(room), class: "chatroom-link"%>
+          </div>
+        <%end%>
+      </div>
+      <div class = "channel-members">
+        <p class = "channel-members-title"> Subscribed Users: </p>
+        <% if @current_room != @general_channel%>
+        <div class = "admin">
+          <p class = 'admin-label'> Room Admin: </p>
+          <p class = 'admin room-admin'><%= @current_room.room_admin%></p>
+        </div>
+        <% end %>
+        <div class = "admin">
+          <p class = 'admin-label'> Members: </p>
+          <% @current_room.users.each do |user|%>
+            <% if user.username != @current_room.room_admin%>
+              <div class = 'member-delete-box'>
+                <div class = 'admin members'><%= user.username %></div>
+                  <% if @current_room != @general_channel%>
+                    <%= link_to remove_user_chatroom_path(user.id, @current_room.id), method: :delete do%>
+                      <div class = 'delete-user'> 
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x delete-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class = "container-messages">
+
+      <div class = "chat-messages">
+        <div class = 'messages-new' id ="message-container">
+          <%= render @messages %>
+        </div>
+      </div>
+
+      <div class = "form-messages">
+      <% if @general_channel == @current_room%>
+        <%= form_with model: @new_message, :url => {:controller => 'messages', :action => 'create_in_general_channel'}, class:'form' do |form| %>
+          <div class = "message-body-create">
+            <%= form.text_field :message_body, class: "input-message", html: { autocomplete: "off" }, placeholder: "Message..." %>
+            <button type="submit" class ='submit-button'>
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-right-dots-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            </svg>
+            <span class = 'send-word'> Send </span>
+            </button>
+          </div>
+        <% end %>
+      <%else%>
+          <%= form_with model: @new_message, :url => {:controller => 'messages', :action => 'create'}, class:'form' do |form| %>
+            <div class = "message-body-create">
+              <%= form.text_field :message_body, class: "input-message", html: { autocomplete: "off" }, placeholder: "Message..." %>
+              <button type="submit" class ='submit-button'>
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-right-dots-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+              </svg>
+              <span class = 'send-word'> Send </span>
+              </button>
+            </div>
+          <% end %>
+      <% end %>
+      </div>  
+    </div>
   </div>
-
 </body>

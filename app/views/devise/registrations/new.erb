@@ -10,6 +10,12 @@
         </div>
 
         <div class="field">
+          <p class ='label-forms'>Username:</p>
+          <%= f.text_field :username, autofocus: true, class: "inputfields", placeholder: "Username...", value: 'daniel' %>
+        </div>
+
+
+        <div class="field">
           <p class ='label-forms'>Password</p>
           <% if @minimum_password_length %>
             <em>(<%= @minimum_password_length %> characters minimum)</em>
