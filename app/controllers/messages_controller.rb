@@ -6,10 +6,20 @@ class MessagesController < ApplicationController
     @messages.chatroom_id = params[:id]
     # byebug
     if @messages.save
-      html = message_render(@messages)
       ActionCable.server.broadcast "chatroom_channel_#{@messages.chatroom_id}",
-      # {partial: message_render(@messages), sent_by: current_user}
-      html: html
+      {mod_messages: message_render(@messages), sent_by: current_user}
+    else
+      flash.now[:alert] = 'Error while sending message!'
+    end
+  end
+
+  def create_in_general_channel
+    @messages = current_user.messages.new(messages_params)
+    @messages.chatroom_id = Chatroom.general_channel[0].id 
+    # byebug
+    if @messages.save
+      ActionCable.server.broadcast "chatroom_channel_#{@messages.chatroom_id}",
+      {mod_messages: message_render(@messages), sent_by: current_user}
     else
       flash.now[:alert] = 'Error while sending message!'
     end
